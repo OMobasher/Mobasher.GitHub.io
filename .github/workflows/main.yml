@@ -3,7 +3,7 @@ name: Branch Protection
 on:
   push:
     branches:
-      - main  # Replace with your branch name
+      - Main-Home-Page  # Replace with your branch name
 
 jobs:
   enforce-protection-rules:
