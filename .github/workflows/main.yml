@@ -1,0 +1,27 @@
+name: Branch Protection
+
+on:
+  push:
+    branches:
+      - main  # Replace with your branch name
+
+jobs:
+  enforce-protection-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Protect Branch
+        uses: actions/checkout@v2
+      - name: Restrict Access
+        run: |
+          git branch -r | grep -v '\->' | while read branch; do git branch --set-upstream-to=$branch origin/$branch; done
+          git config --global user.email "youremail@example.com"
+          git config --global user.name "Your Name"
+          git pull
+          git checkout main  # Replace with your branch name
+          git config --global user.email "youremail@example.com"
+          git config --global user.name "Your Name"
+          git pull
+          git config core.fileMode false
+          git update-index --chmod=-x <file_name>  # Replace <file_name> with the file you want to restrict download access to
+          git commit -m "Restrict download access to <file_name>"
+          git push
